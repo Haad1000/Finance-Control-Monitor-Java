@@ -18,6 +18,9 @@ public class EventLog {
     private String action; // Login or creating a transaction etc.
 
     @Column(nullable = false)
+    private String actor;
+
+    @Column(nullable = false)
     private LocalDateTime timestamp;
 
     @Column(columnDefinition = "TEXT")
