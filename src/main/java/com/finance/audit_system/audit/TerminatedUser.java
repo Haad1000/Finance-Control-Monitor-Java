@@ -5,12 +5,14 @@ import com.finance.audit_system.Entity.User;
 import com.finance.audit_system.Entity.UserStatus;
 import com.finance.audit_system.Entity.Violation;
 import com.finance.audit_system.dao.UserRepository;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class TerminatedUser implements AuditRule{
 
     private final UserRepository userRepository;
