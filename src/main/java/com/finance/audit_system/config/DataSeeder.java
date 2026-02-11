@@ -1,6 +1,7 @@
 package com.finance.audit_system.config;
 
 import com.finance.audit_system.Entity.Role;
+import com.finance.audit_system.Entity.Transaction;
 import com.finance.audit_system.Entity.User;
 import com.finance.audit_system.Entity.UserStatus;
 import com.finance.audit_system.dao.UserRepository;
@@ -48,5 +49,21 @@ public class DataSeeder implements CommandLineRunner {
         financeService.approveTransaction(1L, userAdmin.getId()); // transacction id is 1 because this is the first transaction being made
 
         System.out.println("DATA SEEDING COMPLETE");
+
+        // 5. Simulating Violation of SeperationOfDutiesRule
+        System.out.println("Creating Violation ... admin_user approves himself");
+        Transaction badTransaction = financeService.createTransaction(userAdmin.getId(), new BigDecimal("50.0"), "PAYMENT");
+        financeService.approveTransaction(badTransaction.getId(), userAdmin.getId());
+
+        // 6. Simulating Violation of TerminatedUser rule
+        System.out.println("Creating Violation ... terminated_user makes a transaction");
+
+        User terminatedUser = new User();
+        terminatedUser.setUsername("terminatedUser");
+        terminatedUser.setRole(Role.ACCOUNTANT);
+        terminatedUser.setStatus(UserStatus.TERMINATED);
+        userRepository.save(terminatedUser);
+
+        financeService.createTransaction(terminatedUser.getId(), new BigDecimal("999.0"), "EXPENSE");
     }
 }

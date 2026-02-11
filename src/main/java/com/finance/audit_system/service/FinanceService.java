@@ -42,7 +42,7 @@ public class FinanceService {
         auditLogService.logEvent(
                 user.getUsername(),
                 "CREATE_TRANSACTION",
-                "Amount: " + amount + ", Type: " + type
+                "Transaction ID: " + savedTransaction.getId() + ", Amount: " + amount + ", Type: " + type
         );
 
         return savedTransaction;
@@ -61,10 +61,10 @@ public class FinanceService {
 
         auditLogService.logEvent(
                 approver.getUsername(),
-                "APPROVED_TRANSACTION",
+                "APPROVE_TRANSACTION",
                 "Transaction ID: " + transactionId + " approved"
         );
 
-        return null;
+        return transaction;
     }
 }
